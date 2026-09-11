@@ -1,6 +1,6 @@
 # TennisBackendAtelier
 
-ASP.NET Core 8 backend for the Tennis workshop.
+REST API built with ASP.NET Core 8 for managing tennis player statistics.
 
 ## Prerequisites
 
@@ -13,13 +13,41 @@ cd TennisBackendAtelier
 dotnet run
 ```
 
-The API runs at:
+Swagger UI: `http://localhost:5268/swagger`
 
-- HTTPS: `https://localhost:7155`
-- HTTP: `http://localhost:5268`
+## Run with Docker
 
-Swagger UI: `https://localhost:7155/swagger`
+```bash
+docker build -t tennis-api .
+docker run -p 8080:8080 tennis-api
+```
 
-## Structure
+API available at: `http://localhost:8080`
 
-- `TennisBackendAtelier/` — ASP.NET Core 8 Web API project
+Swagger UI: `http://localhost:8080/swagger`
+
+## Endpoints
+
+| Method | URL | Description |
+|--------|-----|-------------|
+| GET | `/api/players` | Get all players sorted by rank |
+
+## Architecture
+
+```
+TennisBackendAtelier/
+├── Controllers/        # REST endpoints
+├── Services/           # Business logic
+├── Repositories/       # Data access (JSON)
+├── Interfaces/         # Abstractions (DI)
+├── Models/             # Records (Player, Country, PlayerData)
+├── Extensions/         # IServiceCollection extensions
+├── Data/               # JSON dataset (headtohead.json)
+└── Program.cs          # Pipeline configuration
+```
+
+## Design Principles
+
+- **SOLID**: dependency inversion, interfaces, single responsibility
+- **Records**: immutability and reduced boilerplate
+- **Layered Architecture**: Controller → Service → Repository

@@ -26,6 +26,12 @@ API available at: `http://localhost:8080`
 
 Swagger UI: `http://localhost:8080/swagger`
 
+## Run Tests
+
+```bash
+dotnet test
+```
+
 ## Endpoints
 
 | Method | URL | Description |

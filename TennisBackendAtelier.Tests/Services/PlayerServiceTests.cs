@@ -59,4 +59,27 @@ public class PlayerServiceTests
 
         Assert.Empty(result);
     }
+
+    [Fact]
+    public void GetById_ExistingId_ReturnsPlayer()
+    {
+        var player = PlayerTestFactory.Create(17, "Rafael", "Nadal", rank: 1);
+        _mockRepository.Setup(r => r.GetById(17)).Returns(player);
+
+        var result = _service.GetById(17);
+
+        Assert.NotNull(result);
+        Assert.Equal(17, result!.Id);
+        Assert.Equal("Rafael", result.Firstname);
+    }
+
+    [Fact]
+    public void GetById_NonExistingId_ReturnsNull()
+    {
+        _mockRepository.Setup(r => r.GetById(999)).Returns((Player?)null);
+
+        var result = _service.GetById(999);
+
+        Assert.Null(result);
+    }
 }

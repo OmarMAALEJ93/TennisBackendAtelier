@@ -20,4 +20,14 @@ public class PlayersController : ControllerBase
         var players = _playerService.GetAllSortedByRank();
         return Ok(players);
     }
+
+    [HttpGet("{id}")]
+    public IActionResult GetById(int id)
+    {
+        var player = _playerService.GetById(id);
+        if (player is null)
+            return NotFound(new { message = $"Player with id {id} not found" });
+
+        return Ok(player);
+    }
 }

@@ -10,6 +10,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddSingleton<IPlayerRepository, PlayerRepository>();
         services.AddScoped<IPlayerService, PlayerService>();
+        services.AddScoped<IStatisticsService, StatisticsService>();
         return services;
     }
 }

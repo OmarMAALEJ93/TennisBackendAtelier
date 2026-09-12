@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TennisBackendAtelier.Interfaces;
+using TennisBackendAtelier.Models;
 
 namespace TennisBackendAtelier.Controllers;
 
@@ -15,6 +16,7 @@ public class StatisticsController : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Statistics))]
     public IActionResult GetStatistics()
     {
         var statistics = _statisticsService.GetStatistics();

@@ -21,6 +21,8 @@ public class PlayerService : IPlayerService
 
     public Player? GetById(int id) => _repository.GetById(id);
 
+    public bool Exists(int id) => _repository.GetById(id) is not null;
+
     public Player Add(Player player)
     {
         _repository.Add(player);

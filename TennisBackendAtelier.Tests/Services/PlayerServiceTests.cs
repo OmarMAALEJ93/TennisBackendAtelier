@@ -82,4 +82,33 @@ public class PlayerServiceTests
 
         Assert.Null(result);
     }
+
+    [Fact]
+    public void Exists_ExistingId_ReturnsTrue()
+    {
+        var player = PlayerTestFactory.Create(17, "Rafael", "Nadal", rank: 1);
+        _mockRepository.Setup(r => r.GetById(17)).Returns(player);
+
+        Assert.True(_service.Exists(17));
+    }
+
+    [Fact]
+    public void Exists_NonExistingId_ReturnsFalse()
+    {
+        _mockRepository.Setup(r => r.GetById(999)).Returns((Player?)null);
+
+        Assert.False(_service.Exists(999));
+    }
+
+    [Fact]
+    public void Add_CallsRepositoryAndReturnsPlayer()
+    {
+        var player = PlayerTestFactory.Create(200, "Roger", "Federer", rank: 3);
+
+        var result = _service.Add(player);
+
+        _mockRepository.Verify(r => r.Add(player), Times.Once);
+        Assert.Equal(200, result.Id);
+        Assert.Equal("Roger", result.Firstname);
+    }
 }

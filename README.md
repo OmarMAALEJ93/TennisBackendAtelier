@@ -38,6 +38,7 @@ dotnet test
 |--------|-----|-------------|
 | GET | `/api/players` | Get all players sorted by rank |
 | GET | `/api/players/{id}` | Get player by ID |
+| POST | `/api/players` | Add a new player |
 | GET | `/api/statistics` | Get statistics (best country, avg BMI, median height) |
 
 ## Architecture

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TennisBackendAtelier.Interfaces;
+using TennisBackendAtelier.Models;
 
 namespace TennisBackendAtelier.Controllers;
 
@@ -15,6 +16,7 @@ public class PlayersController : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Player>))]
     public IActionResult GetAll()
     {
         var players = _playerService.GetAllSortedByRank();
@@ -22,6 +24,8 @@ public class PlayersController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Player))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public IActionResult GetById(int id)
     {
         var player = _playerService.GetById(id);
@@ -29,5 +33,18 @@ public class PlayersController : ControllerBase
             return NotFound(new { message = $"Player with id {id} not found" });
 
         return Ok(player);
+    }
+
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Player))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public IActionResult Create([FromBody] Player player)
+    {
+        if (_playerService.Exists(player.Id))
+            return Conflict(new { message = $"Player with id {player.Id} already exists" });
+
+        var created = _playerService.Add(player);
+        return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
 }
